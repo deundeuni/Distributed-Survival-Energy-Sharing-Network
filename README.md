@@ -3,6 +3,7 @@
  * Repository/Identifier: Distributed-Survival-Energy-Sharing-Network
  * Organization: deundeunilab
  * Document Type: Idea White Paper (Track 2)
+ * Version: v1.2 (First recorded: v1.0, 2026-09-25 / Latest revision: v1.2, 2026-09-25)
  * Philosophical Lineage: Inherits soma-moa 'Co-Survival' (Symbiotic Co-Survival) and linked with LAST-LIGHT Emergency Evacuation Guidance
  * Architect: deundeuni (Human Architect)
  * Authoring Utility: Passive Execution & Structuring Utilities (Passive execution and structuring tools)
@@ -63,6 +64,7 @@ In this document, a 'Node' refers to a distributed autonomous survival base stat
 
 P2P energy sharing among terrestrial, marine, aerial, and orbital nodes is executed based on directional Laser Wireless Power Transfer (Laser WPT) technology.
 
+ * **SOC (State of Charge) Measurement Definition**: The SOC used throughout this white paper is defined as an effective SOC based on Coulomb Counting combined with Voltage Compensation, intended to correct for the distortion of purely voltage-based SOC estimation under low-temperature conditions (POLAR Zone).
  * **Energy Redistribution Threshold Criteria (Linked with soma-moa L2 FSM)**: When a node's battery state-of-charge (SOC) reaches 80% or above (PRELOCK 80% pattern), that node is defined as being in a 'Surplus Power Confirmed State', transferring power to 'Urgent Charge Demand Nodes' whose SOC has dropped to 20% or below, or to the lowest-charged node in the mesh.
  * **Lowest-SOC Priority Balancing**: Periodically shares SOC states among nodes in the mesh and prioritizes power allocation to the node with the lowest charge level, promoting energy level equalization across the entire mesh.
  * **Fine Pointing and Tracking Limitations Notice**: Mechanisms for fine pointing and tracking under dynamic marine motion or UAV mobility conditions are not claimed as fully verified mechanical implementations within this white paper, and are explicitly stated as precision engineering challenges to be resolved in advanced optical and servo control domains.
@@ -87,12 +89,12 @@ Interlinked with the disaster evacuation guidance framework of the LAST-LIGHT wh
 
 When ambient temperature fluctuations deviate from the optimal operating temperature differential of thermoelectric elements, the efficiency attenuation of thermoelectric power generation can be defined by the following equation:
 
-$$\beta(T_{curr}) = \beta_0 \cdot \left(1 - \frac{|T_{curr} - T_{opt}|}{T_{crit}}\right)$$
+$$\beta(T_{curr}) = \beta_0 \cdot \max\left(0,\ 1 - \frac{|T_{curr} - T_{opt}|}{T_{crit}}\right)$$
 
  * $\beta(T_{curr})$: Power generation efficiency correction factor at current effective element temperature $T_{curr}$
  * $\beta_0$: Baseline power generation efficiency under optimal operating conditions
  * $T_{opt}$: Optimal design operating temperature of the thermoelectric module
- * $T_{crit}$: Critical upper-limit temperature differential for power generation ($\beta(T_{curr}) = 0$ is imposed where $|T_{curr} - T_{opt}| \ge T_{crit}$)
+ * $T_{crit}$: Critical upper-limit temperature differential for power generation (where $|T_{curr} - T_{opt}| \ge T_{crit}$, the $\max(0, \cdot)$ term automatically imposes $\beta(T_{curr}) = 0$)
  * **Estimation Notice**: Benchmark example values attached to this model for critical temperature differential (e.g., $T_{crit} = 80^\circ\text{C} \sim 100^\circ\text{C}$) represent target benchmark values for theoretical understanding and are estimated figures prior to empirical measurement (AS-IS Target Benchmark).
 
 ### 2. Wireless Power Transfer Reception Model Reflecting Atmospheric Dissipation
@@ -107,7 +109,7 @@ $$P_{rx} = P_{tx} \cdot \eta_{tx} \cdot \eta_{rx} \cdot e^{-\gamma \cdot d}$$
  * $\eta_{rx}$: Photovoltaic/power conversion efficiency of the receiving element
  * $\gamma$: Atmospheric dissipation/attenuation coefficient determined by weather conditions (fog, snowfall, sea fog, etc.)
  * $d$: Wireless power transmission distance between nodes or between node and human device
- * **Estimation Notice**: Numerical examples of atmospheric dissipation coefficient $\gamma$ across weather conditions (clear sky, dense fog, etc.) are designated as target estimated benchmark figures prior to empirical measurement (AS-IS Target Benchmark).
+ * **Atmospheric Dissipation Coefficient Relative Trend Example**: As an illustrative example, the atmospheric dissipation coefficient is expected to be lowest under clear-sky conditions ($\gamma_{clear}$), higher under fog/sea-fog conditions, and highest under heavy snowfall/blizzard conditions, following the relative trend $\gamma_{clear} < \gamma_{fog} \ll \gamma_{blizzard}$. Specific numerical values for each condition are reconfirmed as target estimated benchmark figures prior to empirical measurement (AS-IS Target Benchmark).
 
 ### 3. Lowest-SOC Priority Balancing Weight Model
 
@@ -116,9 +118,11 @@ When transmitting surplus power across the mesh network to a specific receiving 
 $$W_i = \max(0,\ \bar{S} - S_i)$$
 
  * $W_i$: Power reception priority weight for the $i$-th node (larger values indicate higher priority to receive power)
- * $\bar{S}$: Average battery state-of-charge (SOC) among currently active nodes in the mesh network
- * $S_i$: Current battery state-of-charge (SOC) of the $i$-th node
+ * $\bar{S}$: Average effective SOC among currently active nodes in the mesh network (as defined in Chapter 4, Section 1)
+ * $S_i$: Current effective SOC of the $i$-th node (as defined in Chapter 4, Section 1)
  * A node whose current SOC $S_i$ is lower than the mesh average $\bar{S}$ yields a larger weight $W_i$, concentrating power delivery to the lowest-charged nodes to promote energy equalization across the mesh.
+
+The $W_i$ defined in this white paper is an independent reception weight based purely on energy remaining. This weight and the $H_{indicator}$ series defined in the soma-moa parent specification, OCEAN Zone, or DESERT Zone are maintained as independent indicators with distinct operating layers and variable structures. However, at the upper-level survival orchestration layer, an extension policy that jointly considers $W_i$ and $H_{indicator}$ as separate inputs may be optionally applied.
 
 ## Chapter 6: Prior Art Reference and Distinctiveness
 
@@ -180,3 +184,14 @@ Software and AI tools utilized in drafting and reviewing this white paper were l
  * NTT & Mitsubishi Heavy Industries — Long-Range High-Power Laser Wireless Power Transmission Experiment Reports (2025)
  * Sejong University Industry-Academy Cooperation Foundation — Registered Patents on 1550nm Infrared Light Source Long-Range Wireless Power Transfer and Multi-Device Charging
  * KAIST — Research Results on Magnetic Resonance Wireless Power Transfer with Spatial Freedom and Low Magnetic Field Characteristics
+
+## Chapter 9: Version Revision History
+
+ * **v1.2 (2026-09-25)**:
+   * Refined the notation of the $\beta$ model in Chapter 5, Section 1: revised from $\beta(T_{curr}) = \beta_0 \cdot (1 - |T_{curr}-T_{opt}|/T_{crit})$ to $\beta(T_{curr}) = \beta_0 \cdot \max(0,\ 1 - |T_{curr}-T_{opt}|/T_{crit})$, so that the zero-clamping condition above $T_{crit}$ is self-contained within the equation itself — eliminating the risk of misinterpretation from dropped conditional clauses during translation or re-citation.
+   * Appended "(as defined in Chapter 4, Section 1)" to the $S_i$ and $\bar{S}$ variable descriptions in the $W_i$ model of Chapter 5, Section 3, explicitly cross-referencing the effective SOC (Coulomb Counting + Voltage Compensation basis) defined in Chapter 4 for cross-chapter terminology consistency.
+ * **v1.1 (2026-09-25)**:
+   * Introduced an SOC (State of Charge) measurement definition in Chapter 4, Section 1: defined as effective SOC based on Coulomb Counting and Voltage Compensation, explicitly stating its purpose of correcting voltage-based SOC distortion under POLAR Zone low-temperature conditions.
+   * Added a relative-trend example for the atmospheric dissipation coefficient $\gamma$ in Chapter 5, Section 2 (in the form $\gamma_{clear} < \gamma_{fog} \ll \gamma_{blizzard}$) — clarifying only the relative magnitude relationship between conditions while retaining the AS-IS Target Benchmark principle for absolute values.
+   * Appended a soma-moa internal ecosystem cross-reference clause at the end of the $W_i$ model in Chapter 5, Section 3: explicitly maintaining $W_i$ (the energy-remaining-based reception weight of this white paper) and the $H_{indicator}$ series of the soma-moa parent specification, OCEAN Zone, and DESERT Zone as independent indicators with distinct operating layers and variable structures, while permitting an optional extension policy at the upper-level survival orchestration layer to jointly consider both as separate inputs — preserving the domain-specific $H$-indicator independence principle while leaving open the possibility of cross-referencing within the survival stack.
+ * **v1.0 (2026-09-25)**: Initial publication. Finalized 8 chapters (overview/philosophy, system architecture, domain-specific zones, common layer, mathematical models, prior art/distinctiveness, practical protection/legal notices, sources) and 3 mathematical models in Chapter 5 ($\beta$ temperature attenuation model, $P_{rx}$ atmospheric dissipation reception model, $W_i$ lowest-SOC balancing weight model).
