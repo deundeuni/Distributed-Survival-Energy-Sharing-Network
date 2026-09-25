@@ -3,7 +3,7 @@
  * Repository/Identifier: Distributed-Survival-Energy-Sharing-Network
  * Organization: deundeunilab
  * Document Type: Idea White Paper (Track 2)
- * Version: v1.2 (First recorded: v1.0, 2026-09-25 / Latest revision: v1.2, 2026-09-25)
+ * Version: v1.3 (First recorded: v1.0, 2026-09-25 / Latest revision: v1.3, 2026-09-25)
  * Philosophical Lineage: Inherits soma-moa 'Co-Survival' (Symbiotic Co-Survival) and linked with LAST-LIGHT Emergency Evacuation Guidance
  * Architect: deundeuni (Human Architect)
  * Authoring Utility: Passive Execution & Structuring Utilities (Passive execution and structuring tools)
@@ -57,6 +57,7 @@ In this document, a 'Node' refers to a distributed autonomous survival base stat
  * **Primary Energy Source**: Interaction with LEO ionospheric plasma and geomagnetic fields
  * **Harvesting Mechanism**: Utilizes Electrodynamic Tether (EDT) conductive cables to generate induced electromotive force through interactions with the ionospheric plasma environment, supplementing auxiliary power and kinetic energy regulation for orbital vehicles.
  * **Future Exploratory Direction**: Lightly suggests the future research possibility of utilizing the electromagnetic drag generated during EDT operation in reverse as a secondary mechanism for deorbiting assistance and deceleration of end-of-life satellites.
+ * **Auxiliary Attitude Maintenance Concept**: Analogous to Earth-Moon tidal interaction, supplementary utilization of EDT-induced ionospheric-geomagnetic power, in addition to solar power, is suggested as a future exploratory direction to supplement minimum power for attitude control and station-keeping during solar-blackout conditions such as eclipse periods. The significance lies not in single-source efficiency but as auxiliary power to prevent blackout during eclipse conditions and extend operational lifetime; this is explicitly noted as an AS-IS exploratory proposal prior to empirical validation.
 
 ## Chapter 4: Common Layer — Distributed Energy Sharing Mesh and Human-Facing Extension
 
@@ -187,6 +188,8 @@ Software and AI tools utilized in drafting and reviewing this white paper were l
 
 ## Chapter 9: Version Revision History
 
+ * **v1.3 (2026-09-25)**:
+   * Introduced an "Auxiliary Attitude Maintenance Concept" at the end of Chapter 3, Section 4 (SPACE Zone): analogous to Earth-Moon tidal interaction, proposing EDT-induced ionospheric-geomagnetic power as an auxiliary power source for attitude control and station-keeping during solar-blackout periods (e.g., eclipse conditions). During review, the inclusion of lightning-induced whistler waves as an auxiliary energy source was also proposed; however, prior literature cross-checking confirmed that whistler waves are established only as signals for global lightning observation, ionospheric/magnetospheric diagnostics, and radiation belt research — no prior art was found for their use as an energy harvesting source. Accordingly, whistler waves were excluded from this white paper (energy harvesting/sharing series) and set aside as a separate observation-domain idea for future consideration.
  * **v1.2 (2026-09-25)**:
    * Refined the notation of the $\beta$ model in Chapter 5, Section 1: revised from $\beta(T_{curr}) = \beta_0 \cdot (1 - |T_{curr}-T_{opt}|/T_{crit})$ to $\beta(T_{curr}) = \beta_0 \cdot \max(0,\ 1 - |T_{curr}-T_{opt}|/T_{crit})$, so that the zero-clamping condition above $T_{crit}$ is self-contained within the equation itself — eliminating the risk of misinterpretation from dropped conditional clauses during translation or re-citation.
    * Appended "(as defined in Chapter 4, Section 1)" to the $S_i$ and $\bar{S}$ variable descriptions in the $W_i$ model of Chapter 5, Section 3, explicitly cross-referencing the effective SOC (Coulomb Counting + Voltage Compensation basis) defined in Chapter 4 for cross-chapter terminology consistency.
